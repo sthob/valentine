@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pour Toi ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    overflow-x: hidden;
+    color: #333;
+    text-align: center;
+}
+
+.section {
+    display: none;
+    padding: 50px 20px;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.active {
+    display: block;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    background: rgba(255,255,255,0.9);
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 500px;
+    margin: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+img {
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 15px;
+}
+
+button {
+    padding: 12px 25px;
+    margin: 10px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.yes {
+    background-color: #ff4b7d;
+    color: white;
+}
+
+.no {
+    background-color: #ddd;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+.next {
+    margin-top: 20px;
+    background-color: #333;
+    color: white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="section active">
+    <div class="card">
+        <h1>Pour toi, mon amour 💌</h1>
+        <p>J'ai quelque chose d'important à te demander...</p>
+        <button class="next" onclick="nextSection()">Découvrir</button>
+    </div>
+</div>
+
+<div class="section">
+    <div class="card">
+        <h2>Notre histoire ✨</h2>
+        <p>Depuis le premier jour, tu rends tout plus beau.</p>
+        <img src="images/photo1.jpg">
+        <button class="next" onclick="nextSection()">Continuer</button>
+    </div>
+</div>
+
+<div class="section">
+    <div class="card">
+        <h2>Pourquoi toi ? 💖</h2>
+        <p>Ton sourire. Ton rire. Ton énergie. Tout.</p>
+        <img src="images/photo2.jpg">
+        <button class="next" onclick="nextSection()">Encore un peu...</button>
+    </div>
+</div>
+
+<div class="section">
+    <div class="card">
+        <h2>Alors... ❤️</h2>
+        <p>Est-ce que tu veux être ma Valentine ?</p>
+        <button class="yes" onclick="yesClicked()">Oui ❤️</button>
+        <button class="no" id="noBtn">Non</button>
+    </div>
+</div>
+
+<script>
+let sections = document.querySelectorAll(".section");
+let current = 0;
+
+function nextSection() {
+    sections[current].classList.remove("active");
+    current++;
+    sections[current].classList.add("active");
+}
+
+function yesClicked() {
+    alert("Je t'aime plus que tout ❤️");
+}
+
+let noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", function() {
+    if (window.innerWidth > 768) {
+        let x = Math.random() * 300 - 150;
+        let y = Math.random() * 200 - 100;
+        noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+});
+
+let messages = ["T'es sûre ? 😏", "Vraiment sûre ? 🥺", "Réfléchis bien ❤️", "Moi je dirais Oui 😌"];
+let clickCount = 0;
+
+noBtn.addEventListener("click", function() {
+    if (window.innerWidth <= 768) {
+        noBtn.innerText = messages[clickCount % messages.length];
+        clickCount++;
+    }
+});
+</script>
+
+</body>
+</html>
