@@ -75,6 +75,12 @@ button:hover {
     background-color: #333;
     color: white;
 }
+
+@keyframes float {
+    0% { transform: translateY(0); opacity:1; }
+    50% { transform: translateY(-30px); opacity:0.8; }
+    100% { transform: translateY(0); opacity:1; }
+}
 </style>
 </head>
 
@@ -126,7 +132,36 @@ function nextSection() {
 }
 
 function yesClicked() {
-    alert("Je t'aime plus que tout ❤️");
+    document.body.innerHTML = `
+        <div style="
+            height:100vh;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            background: linear-gradient(135deg, #ff4b7d, #ff9a9e);
+            color:white;
+            font-family:'Segoe UI', sans-serif;
+            text-align:center;
+            overflow:hidden;
+        ">
+            <h1 style="font-size:3em;">ELLE A DIT OUI 😭❤️</h1>
+            <p style="font-size:1.5em; max-width:600px;">
+                Je t'aime infiniment. Merci d'être toi.
+            </p>
+        </div>
+    `;
+
+    for(let i = 0; i < 40; i++) {
+        let heart = document.createElement("div");
+        heart.innerHTML = "❤️";
+        heart.style.position = "absolute";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = Math.random() * 100 + "vh";
+        heart.style.fontSize = (Math.random() * 30 + 20) + "px";
+        heart.style.animation = "float 3s ease-in-out infinite";
+        document.body.appendChild(heart);
+    }
 }
 
 let noBtn = document.getElementById("noBtn");
