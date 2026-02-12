@@ -169,6 +169,11 @@ function nextSection() {
     sections[current].classList.remove("active");
     current++;
     sections[current].classList.add("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
 function yesClicked() {
@@ -250,8 +255,12 @@ function createFloatingPhoto() {
     }, 35000);
 }
 
-setInterval(createFloatingPhoto, 3000);
+for (let i = 0; i < 12; i++) {
+    createFloatingPhoto();
+}
 
+// Puis génération continue
+setInterval(createFloatingPhoto, 3000);
 </script>
 
 </body>
