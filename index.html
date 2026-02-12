@@ -100,17 +100,25 @@ button:hover {
     height: 180px;
     object-fit: cover;
     border-radius: 20px;
-    opacity: 0.25;
+    opacity: 0;
     filter: blur(2px);
-    animation: drift linear infinite;
+    animation: drift linear forwards;
 }
 
 @keyframes drift {
-    from {
+    0% {
         transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
     }
-    to {
+    10% {
+        opacity: 0.25;
+    }
+    90% {
+        opacity: 0.25;
+    }
+    100% {
         transform: translateY(-200px) rotate(360deg);
+        opacity: 0;
     }
 }
 
@@ -245,8 +253,14 @@ function createFloatingPhoto() {
     img.classList.add("floating-photo");
 
     img.style.left = Math.random() * 100 + "vw";
-    img.style.animationDuration = (15 + Math.random() * 20) + "s";
-    img.style.animationDelay = Math.random() * 5 + "s";
+    let duration = 15 + Math.random() * 20;
+    img.style.animationDuration = duration + "s";
+    img.style.left = Math.random() * 100 + "vw";
+
+    // Supprime l'image à la fin réelle de son animation
+    setTimeout(() => {
+        img.remove();
+    }, duration * 1000);
 
     gallery.appendChild(img);
 
