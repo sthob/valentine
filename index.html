@@ -82,16 +82,55 @@ button:hover {
     50% { transform: translateY(-30px); opacity:0.8; }
     100% { transform: translateY(0); opacity:1; }
 }
+
+.background-gallery {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.floating-photo {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 20px;
+    opacity: 0.25;
+    filter: blur(2px);
+    animation: drift linear infinite;
+}
+
+@keyframes drift {
+    from {
+        transform: translateY(100vh) rotate(0deg);
+    }
+    to {
+        transform: translateY(-200px) rotate(360deg);
+    }
+}
+
+.section {
+    position: relative;
+    z-index: 2;
+}
+
 </style>
 </head>
 
 <body>
 
+<div class="background-gallery"></div>
+
 <div class="section active">
     <div class="card">
-        <h1>Pour toi, mon amour 💌</h1>
+        <h1>Pour toi, mon coeur 💌</h1>
         <p>J'ai quelque chose d'important à te demander...</p>
-        <button class="next" onclick="nextSection()">Découvrir</button>
+        <button class="next" onclick="nextSection()">Clique !</button>
     </div>
 </div>
 
@@ -100,7 +139,7 @@ button:hover {
         <h2>Notre histoire ✨</h2>
         <p>Depuis le premier jour, tu rends tout plus beau.</p>
         <img src="images/photo1.jpg">
-        <button class="next" onclick="nextSection()">Continuer</button>
+        <button class="next" onclick="nextSection()">Encore !</button>
     </div>
 </div>
 
@@ -184,7 +223,37 @@ noBtn.addEventListener("click", function() {
         clickCount++;
     }
 });
+
+// ===== BACKGROUND FLOATING PHOTOS =====
+
+const gallery = document.querySelector(".background-gallery");
+
+const backgroundImages = [
+    "images/photo1.jpg",
+    "images/photo2.png",
+    "images/photo3.jpg", // ajoute si tu veux
+];
+
+function createFloatingPhoto() {
+    const img = document.createElement("img");
+    img.src = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
+    img.classList.add("floating-photo");
+
+    img.style.left = Math.random() * 100 + "vw";
+    img.style.animationDuration = (15 + Math.random() * 20) + "s";
+    img.style.animationDelay = Math.random() * 5 + "s";
+
+    gallery.appendChild(img);
+
+    setTimeout(() => {
+        img.remove();
+    }, 35000);
+}
+
+setInterval(createFloatingPhoto, 3000);
+
 </script>
 
 </body>
+
 </html>
