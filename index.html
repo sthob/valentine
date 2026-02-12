@@ -94,30 +94,27 @@ button:hover {
     pointer-events: none;
 }
 
-.floating-photo {
+.floating-heart {
     position: absolute;
-    width: 180px;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 20px;
+    font-size: 20px;
     opacity: 0;
-    filter: blur(2px);
-    animation: drift linear forwards;
+    animation: heartDrift linear forwards;
+    pointer-events: none;
 }
 
-@keyframes drift {
+@keyframes heartDrift {
     0% {
-        transform: translateY(100vh) rotate(0deg);
+        transform: translateY(100vh) scale(0.8);
         opacity: 0;
     }
-    10% {
-        opacity: 0.25;
+    15% {
+        opacity: 0.6;
     }
-    90% {
-        opacity: 0.25;
+    85% {
+        opacity: 0.6;
     }
     100% {
-        transform: translateY(-200px) rotate(360deg);
+        transform: translateY(-150px) scale(1.2);
         opacity: 0;
     }
 }
@@ -125,6 +122,30 @@ button:hover {
 .section {
     position: relative;
     z-index: 2;
+}
+
+@keyframes driftUp {
+    from { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.25; }
+    to { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes driftDown {
+    from { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.25; }
+    to { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes driftRight {
+    from { transform: translateX(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.25; }
+    to { transform: translateX(120vw) rotate(360deg); opacity: 0; }
+}
+
+@keyframes driftLeft {
+    from { transform: translateX(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.25; }
+    to { transform: translateX(-120vw) rotate(360deg); opacity: 0; }
 }
 
 </style>
@@ -230,11 +251,10 @@ noBtn.addEventListener("mouseover", function() {
 let messages = ["T'es sûre ? 😏", "Vraiment sûre ? 🥺", "Réfléchis bien ❤️", "Moi je dirais Oui 😌"];
 let clickCount = 0;
 
-noBtn.addEventListener("click", function() {
-    if (window.innerWidth <= 768) {
-        noBtn.innerText = messages[clickCount % messages.length];
-        clickCount++;
-    }
+noBtn.addEventListener("mousemove", function() {
+    let x = Math.random() * 400 - 200;
+    let y = Math.random() * 300 - 150;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
 });
 
 // ===== BACKGROUND FLOATING PHOTOS =====
@@ -252,29 +272,47 @@ function createFloatingPhoto() {
     img.src = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
     img.classList.add("floating-photo");
 
-    img.style.left = Math.random() * 100 + "vw";
-    let duration = 15 + Math.random() * 20;
+    let duration = 15 + Math.random() * 15;
     img.style.animationDuration = duration + "s";
-    img.style.left = Math.random() * 100 + "vw";
 
-    // Supprime l'image à la fin réelle de son animation
-    setTimeout(() => {
-        img.remove();
-    }, duration * 1000);
+    const direction = Math.floor(Math.random() * 4);
+
+    if (direction === 0) {
+        // Bas vers haut
+        img.style.left = Math.random() * 100 + "vw";
+        img.style.top = "100vh";
+        img.style.animationName = "driftUp";
+    }
+
+    if (direction === 1) {
+        // Haut vers bas
+        img.style.left = Math.random() * 100 + "vw";
+        img.style.top = "-200px";
+        img.style.animationName = "driftDown";
+    }
+
+    if (direction === 2) {
+        // Gauche vers droite
+        img.style.top = Math.random() * 100 + "vh";
+        img.style.left = "-200px";
+        img.style.animationName = "driftRight";
+    }
+
+    if (direction === 3) {
+        // Droite vers gauche
+        img.style.top = Math.random() * 100 + "vh";
+        img.style.left = "100vw";
+        img.style.animationName = "driftLeft";
+    }
 
     gallery.appendChild(img);
 
     setTimeout(() => {
         img.remove();
-    }, 35000);
+    }, duration * 1000);
 }
 
-for (let i = 0; i < 12; i++) {
-    createFloatingPhoto();
-}
-
-// Puis génération continue
-setInterval(createFloatingPhoto, 3000);
+setInterval(createFloatingHeart, 800);
 </script>
 
 </body>
