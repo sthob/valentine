@@ -45,7 +45,8 @@ body {
     border: 2px solid rgba(255, 75, 125, 0.4);
 }
 
-.card::after {
+.card::after,
+.card::before {
     content: "";
     position: absolute;
     width: 10px;
@@ -53,7 +54,15 @@ body {
     background: #ff4b7d;
     border-radius: 50%;
     box-shadow: 0 0 12px #ff4b7d, 0 0 25px #ff8fab;
+    z-index: -1;
+}
+
+.card::after {
     animation: orbit 6s linear infinite;
+}
+
+.card::before {
+    animation: orbit-reverse 6s linear infinite;
 }
 
 @keyframes orbit {
@@ -62,6 +71,21 @@ body {
     50%  { top: calc(100% - 5px); left: calc(100% - 5px); }
     75%  { top: calc(100% - 5px); left: -5px; }
     100% { top: -5px; left: -5px; }
+}
+
+@keyframes orbit-reverse {
+    0%   { top: calc(100% - 5px); left: calc(100% - 5px); }
+    25%  { top: calc(100% - 5px); left: -5px; }
+    50%  { top: -5px; left: -5px; }
+    75%  { top: -5px; left: calc(100% - 5px); }
+    100% { top: calc(100% - 5px); left: calc(100% - 5px); }
+}
+
+/* Effet de traînée */
+.card::after,
+.card::before {
+    filter: drop-shadow(0 0 8px rgba(255, 75, 125, 0.8));
+    transition: filter 0.3s ease-out;
 }
 
 @keyframes borderGlow {
@@ -241,6 +265,71 @@ body {
 }
 </style>
 </head>
+
+<script>
+// Effet de traînée pour les points lumineux
+document.querySelectorAll('.card').forEach(card => {
+    const after = window.getComputedStyle(card, '::after');
+    const before = window.getComputedStyle(card, '::before');
+
+    // Animation fluide et vitesse constante
+    card.style.setProperty('--orbit-duration', '6s');
+
+    // Gestion de la traînée
+    let trailElements = [];
+
+    function createTrail(x, y, isAfter = true) {
+        const trail = document.createElement('div');
+        trail.style.position = 'absolute';
+        trail.style.width = '15px';
+        trail.style.height = '15px';
+        trail.style.background = 'rgba(255, 75, 125, 0.6)';
+        trail.style.borderRadius = '50%';
+        trail.style.pointerEvents = 'none';
+        trail.style.zIndex = '-2';
+        trail.style.left = x + 'px';
+        trail.style.top = y + 'px';
+        trail.style.transform = 'translate(-50%, -50%)';
+        trail.style.boxShadow = '0 0 10px 5px rgba(255, 75, 125, 0.4)';
+        trail.style.opacity = '0.8';
+        trail.style.transition = 'opacity 0.8s, transform 0.8s';
+        card.appendChild(trail);
+
+        trailElements.push(trail);
+
+        // Disparition progressive
+        setTimeout(() => {
+            trail.style.opacity = '0';
+            trail.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            setTimeout(() => {
+                trail.remove();
+                trailElements = trailElements.filter(t => t !== trail);
+            }, 800);
+        }, 10);
+    }
+
+    // Capture la position des points lumineux
+    const observer = new MutationObserver(() => {
+        const rect = card.getBoundingClientRect();
+        const afterRect = card.getBoundingClientRect();
+        const computedAfter = window.getComputedStyle(card, '::after');
+        const computedBefore = window.getComputedStyle(card, '::before');
+
+        // Position du point "after"
+        const afterX = parseFloat(computedAfter.left) || 0;
+        const afterY = parseFloat(computedAfter.top) || 0;
+
+        // Position du point "before"
+        const beforeX = parseFloat(computedBefore.left) || rect.width - 5;
+        const beforeY = parseFloat(computedBefore.top) || rect.height - 5;
+
+        createTrail(afterX + rect.left, afterY + rect.top, true);
+        createTrail(beforeX + rect.left, beforeY + rect.top, false);
+    });
+
+    observer.observe(card, { attributes: true, attributeFilter: ['style'] });
+});
+</script>
 
 <body>
 
