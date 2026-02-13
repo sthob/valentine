@@ -58,27 +58,27 @@ body {
 }
 
 .card::after {
-    animation: orbit-outside 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation: follow-border 6s linear infinite;
 }
 
 .card::before {
-    animation: orbit-reverse-outside 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation: follow-border-reverse 6s linear infinite;
 }
 
-@keyframes orbit-outside {
-    0%   { top: -20px; left: -20px; }
-    25%  { top: -20px; left: calc(100% + 20px); }
-    50%  { top: calc(100% + 20px); left: calc(100% + 20px); }
-    75%  { top: calc(100% + 20px); left: -20px; }
-    100% { top: -20px; left: -20px; }
+@keyframes follow-border {
+    0%   { top: -10px; left: -10px; transform: translate(-50%, -50%); }
+    25%  { top: -10px; left: calc(100% + 10px); transform: translate(-50%, -50%); }
+    50%  { top: calc(100% + 10px); left: calc(100% + 10px); transform: translate(-50%, -50%); }
+    75%  { top: calc(100% + 10px); left: -10px; transform: translate(-50%, -50%); }
+    100% { top: -10px; left: -10px; transform: translate(-50%, -50%); }
 }
 
-@keyframes orbit-reverse-outside {
-    0%   { top: calc(100% + 20px); left: calc(100% + 20px); }
-    25%  { top: calc(100% + 20px); left: -20px; }
-    50%  { top: -20px; left: -20px; }
-    75%  { top: -20px; left: calc(100% + 20px); }
-    100% { top: calc(100% + 20px); left: calc(100% + 20px); }
+@keyframes follow-border-reverse {
+    0%   { top: calc(100% + 10px); left: calc(100% + 10px); transform: translate(-50%, -50%); }
+    25%  { top: calc(100% + 10px); left: -10px; transform: translate(-50%, -50%); }
+    50%  { top: -10px; left: -10px; transform: translate(-50%, -50%); }
+    75%  { top: -10px; left: calc(100% + 10px); transform: translate(-50%, -50%); }
+    100% { top: calc(100% + 10px); left: calc(100% + 10px); transform: translate(-50%, -50%); }
 }
 
 /* Effet de traînée */
