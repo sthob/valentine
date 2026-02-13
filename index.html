@@ -40,14 +40,9 @@ body {
     max-width: 500px;
     margin: auto;
     box-shadow: 
-        0 15px 40px rgba(0,0,0,0.15),
-        0 0 25px rgba(255, 100, 150, 0.2);
+        0 20px 50px rgba(0,0,0,0.15),
+        0 0 30px rgba(255, 105, 150, 0.25);
     backdrop-filter: blur(8px);
-    transition: transform 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
 }
 
 img {
@@ -276,35 +271,59 @@ function nextSection() {
 
 function yesClicked() {
     loveSound.play();
-    document.body.innerHTML = `
-    <div style="
-        height:100vh;
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        align-items:center;
-        background: linear-gradient(135deg, #ff4b7d, #ff9a9e);
-        color:white;
-        font-family:'Segoe UI', sans-serif;
-        text-align:center;
-        overflow:hidden;
-        padding:20px;
-    ">
-        <h1 style="font-size:3em;">ELLE A DIT OUI 😭❤️</h1>
-        <p style="font-size:1.5em; max-width:600px;">
-            Je t'aime infiniment. Merci d'être toi.
-        </p>
 
-        <p style="
-            margin-top:30px;
-            font-size:1em;
-            opacity:0.8;
-            max-width:500px;
+    document.body.innerHTML = `
+        <div style="
+            height:100vh;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            background: linear-gradient(135deg, #ff4b7d, #ff9a9e);
+            color:white;
+            font-family:'Segoe UI', sans-serif;
+            text-align:center;
+            overflow:hidden;
+            padding:20px;
+            position:relative;
         ">
-            Et puis… une Saint-Valentin aussi spéciale,
-            ça mérite peut-être un petit bisou non ? 😌💋
-        </p>
-    </div>
+
+            <button onclick="location.reload()" style="
+                position:absolute;
+                top:20px;
+                left:20px;
+                background: rgba(255,255,255,0.2);
+                border:1px solid rgba(255,255,255,0.4);
+                color:white;
+                padding:8px 15px;
+                border-radius:20px;
+                cursor:pointer;
+                font-size:0.9em;
+                backdrop-filter: blur(6px);
+                transition:0.3s;
+            "
+            onmouseover="this.style.background='rgba(255,255,255,0.35)'"
+            onmouseout="this.style.background='rgba(255,255,255,0.2)'"
+            >
+                Trop tard… ❤️
+            </button>
+
+            <h1 style="font-size:3em;">ELLE A DIT OUI 😭❤️</h1>
+
+            <p style="font-size:1.5em; max-width:600px;">
+                Je t'aime infiniment. Merci d'être toi.
+            </p>
+
+            <p style="
+                margin-top:30px;
+                font-size:1em;
+                opacity:0.85;
+                max-width:500px;
+            ">
+                Et puis… une Saint-Valentin aussi spéciale,
+                ça mérite peut-être un petit bisou non ? 😌💋
+            </p>
+        </div>
     `;
 
     for(let i = 0; i < 40; i++) {
