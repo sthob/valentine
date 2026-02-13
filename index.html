@@ -34,12 +34,20 @@ body {
 }
 
 .card {
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.92);
     padding: 30px;
     border-radius: 20px;
     max-width: 500px;
     margin: auto;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 
+        0 15px 40px rgba(0,0,0,0.15),
+        0 0 25px rgba(255, 100, 150, 0.2);
+    backdrop-filter: blur(8px);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
 }
 
 img {
@@ -58,10 +66,14 @@ button {
     transition: 0.3s;
 }
 
+/* Tous les boutons sauf .no */
+button:not(.no) {
+    animation: heartbeat 2.2s infinite;
+}
+
 .yes {
     background-color: #ff4b7d;
     color: white;
-    animation: heartbeat 1.8s infinite;
     box-shadow: 0 0 15px rgba(255, 75, 125, 0.6),
                 0 0 30px rgba(255, 105, 150, 0.4);
     position: relative;
@@ -232,7 +244,7 @@ body {
     <div class="card">
         <h2>Pourquoi toi ? 💖</h2>
         <p>Ton sourire. Ton rire. Ton énergie. Tout finalement !</p>
-        <img src="images/photo2.png">
+        <img src="images/photo2.jpg">
         <button class="next" onclick="nextSection()">Encore un peu...</button>
     </div>
 </div>
@@ -402,8 +414,6 @@ function createFloatingPhoto() {
 
     img.src = shuffledImages[imageIndex];
     imageIndex++;
-
-    img.src = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
     img.classList.add("floating-photo");
 
     let duration = 15 + Math.random() * 15;
