@@ -47,23 +47,28 @@ body {
 
 .card::after,
 .card::before {
-    content: "";
+    content: "❤️";
     position: absolute;
-    width: 10px;
-    height: 10px;
-    background: #ff4b7d;
-    border-radius: 50%;
-    box-shadow: 0 0 12px #ff4b7d, 0 0 25px #ff8fab;
+    font-size: 14px;
+    color: #ff4b7d;
+    text-shadow: 0 0 8px rgba(255, 75, 125, 0.8),
+                 0 0 15px rgba(255, 75, 125, 0.5);
     z-index: -1;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
 }
 
 .card::after {
-    animation: orbit 6s linear infinite;
+    animation-name: orbit;
+    animation-duration: 6s;
 }
 
 .card::before {
-    animation: orbit-reverse 6s linear infinite;
+    animation-name: orbit-reverse;
+    animation-duration: 6s;
 }
+
+/* Supprime les styles de "point" (width/height/background/border-radius) */
 
 @keyframes orbit {
     0%   { top: -5px; left: -5px; }
@@ -280,19 +285,18 @@ document.querySelectorAll('.card').forEach(card => {
 
     function createTrail(x, y, isAfter = true) {
         const trail = document.createElement('div');
+        trail.textContent = "❤️";
         trail.style.position = 'absolute';
-        trail.style.width = '15px';
-        trail.style.height = '15px';
-        trail.style.background = 'rgba(255, 75, 125, 0.6)';
-        trail.style.borderRadius = '50%';
+        trail.style.fontSize = '12px';
+        trail.style.color = 'rgba(255, 75, 125, 0.7)';
+        trail.style.textShadow = '0 0 6px rgba(255, 75, 125, 0.5)';
         trail.style.pointerEvents = 'none';
         trail.style.zIndex = '-2';
         trail.style.left = x + 'px';
         trail.style.top = y + 'px';
         trail.style.transform = 'translate(-50%, -50%)';
-        trail.style.boxShadow = '0 0 10px 5px rgba(255, 75, 125, 0.4)';
-        trail.style.opacity = '0.8';
-        trail.style.transition = 'opacity 0.8s, transform 0.8s';
+        trail.style.opacity = '0.9';
+        trail.style.transition = 'opacity 0.8s, transform 0.8s, font-size 0.8s';
         card.appendChild(trail);
 
         trailElements.push(trail);
@@ -300,7 +304,7 @@ document.querySelectorAll('.card').forEach(card => {
         // Disparition progressive
         setTimeout(() => {
             trail.style.opacity = '0';
-            trail.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            trail.style.fontSize = '18px';
             setTimeout(() => {
                 trail.remove();
                 trailElements = trailElements.filter(t => t !== trail);
