@@ -42,31 +42,27 @@ body {
     margin: auto;
     backdrop-filter: blur(8px);
     box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    border: 2px solid rgba(255, 75, 125, 0.4);
 }
 
-.card::before {
+.card::after {
     content: "";
     position: absolute;
-    inset: -3px;
-    border-radius: 23px;
-    background: conic-gradient(
-        from 0deg,
-        transparent 0deg,
-        transparent 300deg,
-        #ff4b7d 340deg,
-        #ff8fab 350deg,
-        #ff4b7d 360deg
-    );
-    animation: spinBorder 4s linear infinite;
-    z-index: -1;
+    width: 10px;
+    height: 10px;
+    background: #ff4b7d;
+    border-radius: 50%;
+    box-shadow: 0 0 12px #ff4b7d, 0 0 25px #ff8fab;
+    animation: orbit 6s linear infinite;
 }
 
-@keyframes spinBorder {
-    100% {
-        transform: rotate(360deg);
-    }
+@keyframes orbit {
+    0%   { top: -5px; left: -5px; }
+    25%  { top: -5px; left: calc(100% - 5px); }
+    50%  { top: calc(100% - 5px); left: calc(100% - 5px); }
+    75%  { top: calc(100% - 5px); left: -5px; }
+    100% { top: -5px; left: -5px; }
 }
-
 
 @keyframes borderGlow {
     0% {
