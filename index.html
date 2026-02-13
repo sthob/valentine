@@ -83,15 +83,18 @@ button:hover {
     100% { transform: translateY(0); opacity:1; }
 }
 
-.background-gallery {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: 0;
-    pointer-events: none;
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(
+        135deg,
+        #ff6fa5 0%,     /* rose intense haut gauche */
+        #ff9ecb 35%,    /* rose clair */
+        #ffd86f 100%    /* jaune doux bas droite */
+    );
+    overflow-x: hidden;
+    color: #333;
+    text-align: center;
 }
 
 .floating-heart {
@@ -281,12 +284,40 @@ const backgroundImages = [
 
 function createFloatingHeart() {
     const heart = document.createElement("div");
-    heart.innerHTML = "🤍";
+
+    const heartTypes = ["🤍", "💖", "❤️"];
+    heart.innerHTML = heartTypes[Math.floor(Math.random() * heartTypes.length)];
+
     heart.classList.add("floating-heart");
 
-    let duration = 10 + Math.random() * 10;
-    heart.style.left = Math.random() * 100 + "vw";
+    let duration = 8 + Math.random() * 12;
     heart.style.animationDuration = duration + "s";
+
+    const direction = Math.floor(Math.random() * 4);
+
+    if (direction === 0) {
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = "100vh";
+        heart.style.animationName = "driftUp";
+    }
+
+    if (direction === 1) {
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = "-50px";
+        heart.style.animationName = "driftDown";
+    }
+
+    if (direction === 2) {
+        heart.style.top = Math.random() * 100 + "vh";
+        heart.style.left = "-50px";
+        heart.style.animationName = "driftRight";
+    }
+
+    if (direction === 3) {
+        heart.style.top = Math.random() * 100 + "vh";
+        heart.style.left = "100vw";
+        heart.style.animationName = "driftLeft";
+    }
 
     gallery.appendChild(heart);
 
