@@ -43,6 +43,7 @@ body {
     backdrop-filter: blur(8px);
     box-shadow: 0 20px 50px rgba(0,0,0,0.15);
     border: 2px solid rgba(255, 75, 125, 0.4);
+    overflow: visible
 }
 
 .card::after,
@@ -59,31 +60,29 @@ body {
 }
 
 .card::after {
-    animation-name: orbit;
-    animation-duration: 6s;
+    animation: orbit-outside 6s linear infinite;
 }
 
 .card::before {
-    animation-name: orbit-reverse;
-    animation-duration: 6s;
+    animation: orbit-reverse-outside 6s linear infinite;
 }
 
 /* Supprime les styles de "point" (width/height/background/border-radius) */
 
-@keyframes orbit {
-    0%   { top: -5px; left: -5px; }
-    25%  { top: -5px; left: calc(100% - 5px); }
-    50%  { top: calc(100% - 5px); left: calc(100% - 5px); }
-    75%  { top: calc(100% - 5px); left: -5px; }
-    100% { top: -5px; left: -5px; }
+@keyframes orbit-outside {
+    0%   { top: -20px; left: -20px; }
+    25%  { top: -20px; left: calc(100% + 20px); }
+    50%  { top: calc(100% + 20px); left: calc(100% + 20px); }
+    75%  { top: calc(100% + 20px); left: -20px; }
+    100% { top: -20px; left: -20px; }
 }
 
-@keyframes orbit-reverse {
-    0%   { top: calc(100% - 5px); left: calc(100% - 5px); }
-    25%  { top: calc(100% - 5px); left: -5px; }
-    50%  { top: -5px; left: -5px; }
-    75%  { top: -5px; left: calc(100% - 5px); }
-    100% { top: calc(100% - 5px); left: calc(100% - 5px); }
+@keyframes orbit-reverse-outside {
+    0%   { top: calc(100% + 20px); left: calc(100% + 20px); }
+    25%  { top: calc(100% + 20px); left: -20px; }
+    50%  { top: -20px; left: -20px; }
+    75%  { top: -20px; left: calc(100% + 20px); }
+    100% { top: calc(100% + 20px); left: calc(100% + 20px); }
 }
 
 /* Effet de traînée */
@@ -286,49 +285,41 @@ document.querySelectorAll('.card').forEach(card => {
     function createTrail(x, y, isAfter = true) {
         const trail = document.createElement('div');
         trail.textContent = "❤️";
-        trail.style.position = 'absolute';
+        trail.style.position = 'fixed'; /* Important pour éviter les décalages */
         trail.style.fontSize = '12px';
-        trail.style.color = 'rgba(255, 75, 125, 0.7)';
-        trail.style.textShadow = '0 0 6px rgba(255, 75, 125, 0.5)';
+        trail.style.color = 'rgba(255, 75, 125, 0.8)';
+        trail.style.textShadow = '0 0 8px rgba(255, 75, 125, 0.6)';
         trail.style.pointerEvents = 'none';
-        trail.style.zIndex = '-2';
+        trail.style.zIndex = '100'; /* Au-dessus du reste */
         trail.style.left = x + 'px';
         trail.style.top = y + 'px';
         trail.style.transform = 'translate(-50%, -50%)';
-        trail.style.opacity = '0.9';
-        trail.style.transition = 'opacity 0.8s, transform 0.8s, font-size 0.8s';
-        card.appendChild(trail);
-
-        trailElements.push(trail);
+        trail.style.opacity = '1';
+        trail.style.transition = 'opacity 1.2s, transform 1.2s, font-size 1.2s';
+        document.body.appendChild(trail); /* Ajoute au body pour éviter les clippings */
 
         // Disparition progressive
         setTimeout(() => {
             trail.style.opacity = '0';
-            trail.style.fontSize = '18px';
-            setTimeout(() => {
-                trail.remove();
-                trailElements = trailElements.filter(t => t !== trail);
-            }, 800);
+            trail.style.fontSize = '8px';
+            setTimeout(() => trail.remove(), 1200);
         }, 10);
     }
 
     // Capture la position des points lumineux
     const observer = new MutationObserver(() => {
         const rect = card.getBoundingClientRect();
-        const afterRect = card.getBoundingClientRect();
-        const computedAfter = window.getComputedStyle(card, '::after');
-        const computedBefore = window.getComputedStyle(card, '::before');
 
-        // Position du point "after"
-        const afterX = parseFloat(computedAfter.left) || 0;
-        const afterY = parseFloat(computedAfter.top) || 0;
+        // Position du cœur "after" (extérieur)
+        const afterX = rect.left - 20 + (rect.width + 40) * (currentAfterProgress || 0);
+        const afterY = rect.top - 20;
 
-        // Position du point "before"
-        const beforeX = parseFloat(computedBefore.left) || rect.width - 5;
-        const beforeY = parseFloat(computedBefore.top) || rect.height - 5;
+        // Position du cœur "before" (extérieur)
+        const beforeX = rect.left + rect.width + 20 - (rect.width + 40) * (currentBeforeProgress || 0);
+        const beforeY = rect.top + rect.height + 20;
 
-        createTrail(afterX + rect.left, afterY + rect.top, true);
-        createTrail(beforeX + rect.left, beforeY + rect.top, false);
+        createTrail(afterX, afterY, true);
+        createTrail(beforeX, beforeY, false);
     });
 
     observer.observe(card, { attributes: true, attributeFilter: ['style'] });
