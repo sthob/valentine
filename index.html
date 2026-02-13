@@ -282,6 +282,15 @@ noBtn.addEventListener("mousemove", function() {
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
 });
 
+let heartbeatBoosted = false;
+
+noBtn.addEventListener("mousemove", function() {
+    if (!heartbeatBoosted) {
+        document.querySelector(".yes").style.animation = "heartbeat 0.9s infinite";
+        heartbeatBoosted = true;
+    }
+});
+
 // ===== BACKGROUND FLOATING PHOTOS =====
 
 const gallery = document.querySelector(".background-gallery");
