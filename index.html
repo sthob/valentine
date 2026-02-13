@@ -148,6 +148,16 @@ button:hover {
     to { transform: translateX(-120vw) rotate(360deg); opacity: 0; }
 }
 
+.floating-photo {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 20px;
+    opacity: 0;
+    filter: blur(2px);
+    pointer-events: none;
+}
 </style>
 </head>
 
@@ -267,6 +277,22 @@ const backgroundImages = [
     "images/photo3.jpg", // ajoute si tu veux
 ];
 
+function createFloatingHeart() {
+    const heart = document.createElement("div");
+    heart.innerHTML = "🤍";
+    heart.classList.add("floating-heart");
+
+    let duration = 10 + Math.random() * 10;
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = duration + "s";
+
+    gallery.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, duration * 1000);
+}
+
 function createFloatingPhoto() {
     const img = document.createElement("img");
     img.src = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
@@ -312,7 +338,18 @@ function createFloatingPhoto() {
     }, duration * 1000);
 }
 
+// Lancement en continu
+setInterval(createFloatingPhoto, 2000);
 setInterval(createFloatingHeart, 800);
+
+// Pré-remplissage immédiat (important)
+for(let i = 0; i < 8; i++) {
+    createFloatingPhoto();
+}
+
+for(let i = 0; i < 15; i++) {
+    createFloatingHeart();
+}
 </script>
 
 </body>
