@@ -221,6 +221,7 @@ function nextSection() {
 
 function yesClicked() {
     loveSound.play();
+    magnetActive = false;
     document.body.innerHTML = `
         <div style="
             height:100vh;
@@ -383,6 +384,39 @@ for(let i = 0; i < 8; i++) {
 for(let i = 0; i < 15; i++) {
     createFloatingHeart();
 }
+
+let chaseTime = 0;
+let magnetActive = false;
+let magnetStrength = 0;
+
+document.addEventListener("mousemove", () => {
+    chaseTime += 0.05;
+
+    if (chaseTime > 5) { // après 5 secondes d'acharnement
+        magnetActive = true;
+        magnetStrength += 0.05;
+    }
+});
+
+document.addEventListener("mousemove", function(e) {
+
+    if (!magnetActive) return;
+
+    const yesBtn = document.querySelector(".yes");
+    const rect = yesBtn.getBoundingClientRect();
+
+    const yesX = rect.left + rect.width / 2;
+    const yesY = rect.top + rect.height / 2;
+
+    const dx = yesX - e.clientX;
+    const dy = yesY - e.clientY;
+
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < 300) {
+        yesBtn.style.transform = `translate(${dx * 0.05 * magnetStrength}px, ${dy * 0.05 * magnetStrength}px)`;
+    }
+});
 </script>
 
 </body>
