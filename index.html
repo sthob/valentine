@@ -330,9 +330,23 @@ const gallery = document.querySelector(".background-gallery");
 
 const backgroundImages = [
     "images/photo1.jpg",
-    "images/photo2.png",
-    "images/photo3.jpg", // ajoute si tu veux
+    "images/photo2.jpg",
+    "images/photo3.jpg",
+    "images/photo4.jpg",
+    "images/photo5.jpg"
 ];
+
+// Mélange propre
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+let shuffledImages = [...backgroundImages];
+shuffleArray(shuffledImages);
+let imageIndex = 0;
 
 function createFloatingHeart() {
     const heart = document.createElement("div");
@@ -380,6 +394,15 @@ function createFloatingHeart() {
 
 function createFloatingPhoto() {
     const img = document.createElement("img");
+    if (imageIndex >= shuffledImages.length) {
+        shuffledImages = [...backgroundImages];
+        shuffleArray(shuffledImages);
+        imageIndex = 0;
+    }
+
+    img.src = shuffledImages[imageIndex];
+    imageIndex++;
+
     img.src = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
     img.classList.add("floating-photo");
 
