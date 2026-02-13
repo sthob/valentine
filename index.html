@@ -61,6 +61,7 @@ button {
 .yes {
     background-color: #ff4b7d;
     color: white;
+    animation: heartbeat 1.8s infinite;
 }
 
 .no {
@@ -161,6 +162,15 @@ body {
     filter: blur(2px);
     pointer-events: none;
 }
+
+@keyframes heartbeat {
+    0%   { transform: scale(1); }
+    15%  { transform: scale(1.15); }
+    30%  { transform: scale(1); }
+    45%  { transform: scale(1.1); }
+    60%  { transform: scale(1); }
+    100% { transform: scale(1); }
+}
 </style>
 </head>
 
@@ -179,7 +189,7 @@ body {
 <div class="section">
     <div class="card">
         <h2>Notre histoire ✨</h2>
-        <p>Depuis le premier jour, tu rends tout plus beau.</p>
+        <p>Depuis le premier jour, tu rends tout plus beau...</p>
         <img src="images/photo1.jpg">
         <button class="next" onclick="nextSection()">Encore !</button>
     </div>
@@ -188,7 +198,7 @@ body {
 <div class="section">
     <div class="card">
         <h2>Pourquoi toi ? 💖</h2>
-        <p>Ton sourire. Ton rire. Ton énergie. Tout.</p>
+        <p>Ton sourire. Ton rire. Ton énergie. Tout finalement !</p>
         <img src="images/photo2.png">
         <button class="next" onclick="nextSection()">Encore un peu...</button>
     </div>
@@ -197,7 +207,7 @@ body {
 <div class="section">
     <div class="card">
         <h2>Alors... ❤️</h2>
-        <p>Est-ce que tu veux être ma Valentine ?</p>
+        <p>Veux-tu être ma Valentine ?</p>
         <button class="yes" onclick="yesClicked()">Oui ❤️</button>
         <button class="no" id="noBtn">Non</button>
     </div>
