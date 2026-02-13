@@ -67,22 +67,20 @@ body {
     animation: orbit-reverse-outside 6s linear infinite;
 }
 
-/* Supprime les styles de "point" (width/height/background/border-radius) */
-
 @keyframes orbit-outside {
-    0%   { top: -20px; left: -20px; }
-    25%  { top: -20px; left: calc(100% + 20px); }
-    50%  { top: calc(100% + 20px); left: calc(100% + 20px); }
-    75%  { top: calc(100% + 20px); left: -20px; }
-    100% { top: -20px; left: -20px; }
+    0%   { top: -20px; left: calc(50% - 10px); transform: translateX(-50%); }
+    25%  { top: calc(50% - 10px); left: calc(100% + 20px); transform: translateY(-50%); }
+    50%  { top: calc(100% + 20px); left: calc(50% - 10px); transform: translateX(-50%); }
+    75%  { top: calc(50% - 10px); left: -20px; transform: translateY(-50%); }
+    100% { top: -20px; left: calc(50% - 10px); transform: translateX(-50%); }
 }
 
 @keyframes orbit-reverse-outside {
-    0%   { top: calc(100% + 20px); left: calc(100% + 20px); }
-    25%  { top: calc(100% + 20px); left: -20px; }
-    50%  { top: -20px; left: -20px; }
-    75%  { top: -20px; left: calc(100% + 20px); }
-    100% { top: calc(100% + 20px); left: calc(100% + 20px); }
+    0%   { top: calc(100% + 20px); left: calc(50% - 10px); transform: translateX(-50%); }
+    25%  { top: calc(50% - 10px); left: -20px; transform: translateY(-50%); }
+    50%  { top: -20px; left: calc(50% - 10px); transform: translateX(-50%); }
+    75%  { top: calc(50% - 10px); left: calc(100% + 20px); transform: translateY(-50%); }
+    100% { top: calc(100% + 20px); left: calc(50% - 10px); transform: translateX(-50%); }
 }
 
 /* Effet de traînée */
